@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+    <div x-data="tours">
+        <template x-for="(tour, index) in tours" :key="index">
+            <div>
+                <h1 x-text="tour.name"></h1>
+                <h2>Price: <span x-text="tour.price"></span></h2>
+                <label>People:</label>
+                <input type="text" x-model="tour.pepole">
+                <template x-for="(child, childIndex) in tour.children" :key="childIndex">
+                    <div>
+                        <label x-text="child.name"></label>/
+                        <span x-text="child.discount"></span>:
+                        <input type="text" x-model="child.count">
+                    </div>
+                </template>
+    </div>
+    </template>
+    <label for="" x-text="getPrice"></label>
+    <button @click.prevent="Check">Check</button>
+    </div>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('tours', () => ({
+                tours: [{
+                    name: 'Tour 1',
+                    price: 100,
+                    pepole: 0,
+                    children: [{
+                        name: 'Child 1',
+                        discount: 50,
+                        count: 0
+                    }, {
+                        name: 'Child 2',
+                        discount: 75,
+                        count: 0
+                    }, {
+                        name: 'Child 3',
+                        discount: 100,
+                        count: 0
+                    }, ],
+
+                }],
+                getPrice() {
+                    let price = 0;
+                    this.tours.forEach(tour => {
+                        price += tour.price * tour.pepole;
+                        tour.children.forEach(child => {
+                            price += child.discount * child.count;
+                        })
+                    })
+                    return price;
+                },
+                Check() {
+                    console.log(this.tours)
+                }
+            }))
+        })
+    </script>
+</body>
+
+</html>
