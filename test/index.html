@@ -6,26 +6,27 @@
 
 <body>
     <div x-data="tours">
-
         <template x-for="(tour, index) in tours" :key="index">
-            <input type="checkbox" x-model="tour.selected">
-
-            <div [x-cloak] x-show="tour.selected" >
-                <h1 x-text="tour.name"></h1>
-                <h2>Price: <span x-text="tour.price"></span></h2>
-                <label>People:</label>
-                <input type="text" x-model="tour.pepole">
-                <template x-for="(child, childIndex) in tour.children" :key="childIndex">
-                    <div>
-                        <label x-text="child.name"></label>/
-                        <span x-text="child.discount"></span>:
-                        <input type="text" x-model="child.count">
-                    </div>
-                </template>
+            <div>
+                <input type="checkbox" :checked="tour.selected" @change="selectTour(index)">
+                <div x-cloak x-show="tour.selected">
+                    <h1 x-text="tour.name"></h1>
+                    <h2>Price: <span x-text="tour.price"></span></h2>
+                    <label>People:</label>
+                    <input type="text" x-model="tour.pepole">
+                    <template x-for="(child, childIndex) in tour.children" :key="childIndex">
+                        <div>
+                            <label x-text="child.name"></label>/
+                            <span x-text="child.discount"></span>:
+                            <input type="text" x-model="child.count">
+                        </div>
+                    </template>
+    </div>
     </div>
     </template>
-    <label for="" x-text="getPrice"></label>
-    <button @click.prevent="Check">Check</button>
+    <div> <label for="" x-text="getPrice()"></label>
+        <button @click.prevent="Check()">Check</button>
+    </div>
     </div>
     <script>
         document.addEventListener('alpine:init', () => {
@@ -67,6 +68,15 @@
                     }, ],
                     selected: false
                 }],
+                selectTour(index) {
+                    this.tours.forEach((tour, i) => {
+                        tour.selected = (i === index);
+                        tour.pepole = 0;
+                        tour.children.forEach(child => {
+                            child.count = 0;
+                        })
+                    });
+                },
                 getPrice() {
                     let price = 0;
                     this.tours.forEach(tour => {
@@ -78,7 +88,18 @@
                     return price;
                 },
                 Check() {
-                    console.log(this.tours)
+                    let data = []
+                    this.tours.forEach(tour => {
+                        if (tour.selected) {
+                            data.push({
+                                name: tour.name,
+                                price: tour.price,
+                                pepole: tour.pepole,
+                                children: tour.children
+                            })
+                        }
+                    })
+                    console.log(JSON.stringify(data))
                 }
             }))
         })
