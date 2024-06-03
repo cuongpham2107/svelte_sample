@@ -6,8 +6,11 @@
 
 <body>
     <div x-data="tours">
+
         <template x-for="(tour, index) in tours" :key="index">
-            <div>
+            <input type="checkbox" x-model="tour.selected">
+
+            <div [x-cloak] x-show="tour.selected" >
                 <h1 x-text="tour.name"></h1>
                 <h2>Price: <span x-text="tour.price"></span></h2>
                 <label>People:</label>
@@ -44,7 +47,25 @@
                         discount: 100,
                         count: 0
                     }, ],
-
+                    selected: true
+                }, {
+                    name: 'Tour 2',
+                    price: 100,
+                    pepole: 0,
+                    children: [{
+                        name: 'Child 1',
+                        discount: 50,
+                        count: 0
+                    }, {
+                        name: 'Child 2',
+                        discount: 75,
+                        count: 0
+                    }, {
+                        name: 'Child 3',
+                        discount: 100,
+                        count: 0
+                    }, ],
+                    selected: false
                 }],
                 getPrice() {
                     let price = 0;
