@@ -12,7 +12,12 @@
     import * as Table from "$lib/components/ui/table/index.js";
     import { Textarea } from "$lib/components/ui/textarea/index.js";
     import * as ToggleGroup from "$lib/components/ui/toggle-group/index.js";
+
+  
+
     import type { PageData } from './$types';
+
+
     
     export let data: PageData;
 </script>
@@ -287,12 +292,14 @@
                       width="84"
                     />
                   </button>
-                  <button
+                 
+                    <button
+                    
                     class="flex aspect-square w-full items-center justify-center rounded-md border border-dashed"
-                  >
-                    <Upload class="h-4 w-4 text-muted-foreground" />
-                    <span class="sr-only">Upload</span>
-                  </button>
+                    >
+                      <Upload class="h-4 w-4 text-muted-foreground" />
+                      <span class="sr-only">Upload</span>
+                    </button>
                 </div>
               </div>
             </Card.Content>
